@@ -72,7 +72,7 @@ def cart_page(product_page_calc_setup: ProductPage):
 def cart_page_calc(cart_page: CartPage):
     yield cart_page
     cart_page.set_initial_value()
-    #time.sleep(1.5)
+    time.sleep(1.5)
 
 
 class TestPreparationPurchase:

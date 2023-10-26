@@ -1,9 +1,5 @@
 /.idea
-/__pycache__
 /.pytest_cache
 /tests/.pytest_cache
-/tests/__pycache__
-/locators/__pycache__
-/pages/__pycache__
 /.gitignore
 /tt.py

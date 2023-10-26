@@ -31,7 +31,7 @@ class PRICE_RANGE:
     MAX_PRICE = '4000'
 
 
-HEADLESS = os.getenv('HEADLESS', 1)
+HEADLESS = os.getenv('HEADLESS')
 
 
 BROWSER = os.getenv('BROWSER', 'firefox')

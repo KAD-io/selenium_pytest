@@ -24,6 +24,7 @@ from const import PRICE_RANGE
 def catalog_page(a1_main_page: MainPage):
 
     catalog_page_: CatalogPage = a1_main_page.go_to_catalog()
+    catalog_page_.click_to_close_spam()
     yield catalog_page_
     a1_main_page.go_to_site()
 
