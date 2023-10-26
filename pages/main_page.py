@@ -22,13 +22,7 @@ class MainPage(BasePage):
     def go_to_catalog(self):
         shop_button = self.find_element(Locators.SHOP_BUTTON)
         ActionChains(self.driver).move_to_element(shop_button).perform()
-        #time.sleep(3)
         self.click_to(Locators.CATALOG_PHONE_BUTTON)
-        # wait = 30
-        # while not self.is_exists(Locators.CLOSE_BUTTON_SPAM_PANEL) and wait:
-        #     time.sleep(1)
-        #     wait -= 1
-        #self.click_to(Locators.CLOSE_BUTTON_SPAM_PANEL)
         return CatalogPage(self.driver, self.driver.current_url)
 
     def click_to_ru_local_button(self):
