@@ -16,7 +16,7 @@ from pages.product_page import ProductPage
      !!!проверяем что на странице продукта смартфон соответствует тому на который кликнули
         !!!по описанию
         !!!по цене
-     !!!проверяем на странице продукта проверяем что при нажатии +-  
+     !!!проверяем на странице продукта что при нажатии +-  
         !!!количество продукта меняется правильно
         !!!цена для измененного количества считается правильно
      -выбираем оплатить полностью
@@ -36,6 +36,12 @@ from pages.product_page import ProductPage
 
 @pytest.fixture(scope='module')
 def product_page(a1_main_page: MainPage):
+    """
+    тест подготовки к закупке:
+    -переходим в каталог со смартфонами
+    -запоминаем описание и цену первого смарфона
+    -кликаем на первый смартфон -> переходим на страницу продукта (смартфона)
+    """
     catalog_page: CatalogPage = a1_main_page.go_to_catalog()
     product_name = catalog_page.get_header_product()
     product_price = catalog_page.get_price_product()
@@ -58,10 +64,16 @@ def product_page_calc_setup(product_page: ProductPage):
 def product_page_calc(product_page_calc_setup: ProductPage):
     yield product_page_calc_setup
     product_page_calc_setup.set_initial_value()
+    time.sleep(1.5)
 
 
 @pytest.fixture(scope='class')
 def cart_page(product_page_calc_setup: ProductPage):
+    """
+    -выбираем оплатить полностью
+    -жмем купить -> переходим в корзину
+
+    """
     cart_page_: CartPage = product_page_calc_setup.go_to_buy()
     cart_page_.name = product_page_calc_setup.name
     cart_page_.full_price = product_page_calc_setup.full_price
@@ -76,6 +88,11 @@ def cart_page_calc(cart_page: CartPage):
 
 
 class TestPreparationPurchase:
+    """
+    !!!проверяем что на странице продукта смартфон соответствует информации на странице общего таталога:
+        !!!по описанию
+        !!!по цене
+    """
     @staticmethod
     def test_conformity_header(product_page):
         assert product_page.get_header_product() == product_page.name
@@ -87,7 +104,11 @@ class TestPreparationPurchase:
 
 
 class TestCalcFullPrice:
-
+    """
+     !!!проверяем на странице продукта что при нажатии +(-)
+    !!!количество продукта меняется правильно
+    !!!цена для измененного количества считается правильно
+    """
     @staticmethod
     def test_button_quantity_plus(product_page_calc):
         assert product_page_calc.get_input_quantity() == VALUE_FOR_QUANTITY.INITIAL
@@ -113,6 +134,11 @@ class TestCalcFullPrice:
 
 
 class TestPurchaseInCart:
+    """
+     !!!на странице корзины проверяем что смартфон соответствует тому на который кликали в общем каталоге по:
+        !!!описанию
+        !!!цене
+    """
     @staticmethod
     def test_conformity_header_in_cart(cart_page):
         assert cart_page.get_header_product() == cart_page.name
@@ -123,6 +149,11 @@ class TestPurchaseInCart:
 
     @staticmethod
     def test_button_quantity_plus_in_cart(cart_page_calc):
+        """
+        !!!на странице карнизы проверяем что при нажатии +(-)
+        !!!количество продукта меняется правильно
+        !!!цена для измененного количества считается правильно
+        """
         assert cart_page_calc.get_input_quantity() == VALUE_FOR_QUANTITY.INITIAL
         count_click_plus = random.randint(VALUE_FOR_QUANTITY.MIN_PLUS, VALUE_FOR_QUANTITY.MAX_PLUS)
         cart_page_calc.click_to_button_quantity_plus(count_click_plus)
@@ -146,11 +177,18 @@ class TestPurchaseInCart:
 
     @staticmethod
     def test_remove_with_cancel(cart_page):
+        """
+        -жмем удалить тавра из карнизы без подтверждения
+        !!!на странице карнизы проверяем что она не пуста
+        """
         cart_page.click_to_remove_button_with_cancel()
         assert not cart_page.is_empty_result_placeholder_exists()
 
     @staticmethod
     def test_remove_with_accept(cart_page):
+        """
+        -жмем удалить тавра из карнизы с подтверждением
+        !!!на странице карнизы проверяем что она пуста
+        """
         cart_page.click_to_remove_button_with_accept()
-
         assert cart_page.is_empty_result_placeholder_exists()

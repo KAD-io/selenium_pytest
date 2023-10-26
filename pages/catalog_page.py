@@ -85,7 +85,7 @@ class CatalogPage(BasePage):
 
     def click_to_button_clear_filters(self):
         self.click_to(Locators.CLEAR_ALL_FILTER_BUTTON)
-        #time.sleep(1.5)
+        time.sleep(1)
 
     def click_to_close_spam(self):
         wait = 30

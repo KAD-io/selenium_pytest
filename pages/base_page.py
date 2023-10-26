@@ -23,8 +23,8 @@ class BasePage:
         return WebDriverWait(self.driver, timeout).until(condition)
 
     def find_element(self, locator: tuple[str], timeout=TIMEOUTS.FIND_ELEMENT) -> WebElement:
-        while not self.is_exists(locator):
-            time.sleep(1)
+        # while not self.is_exists(locator):
+        #     time.sleep(1)
         condition = ec.presence_of_element_located(locator)
         return WebDriverWait(self.driver, timeout).until(condition)
 
