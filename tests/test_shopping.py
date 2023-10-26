@@ -72,7 +72,6 @@ def cart_page(product_page_calc_setup: ProductPage):
     """
     -выбираем оплатить полностью
     -жмем купить -> переходим в корзину
-
     """
     cart_page_: CartPage = product_page_calc_setup.go_to_buy()
     cart_page_.name = product_page_calc_setup.name

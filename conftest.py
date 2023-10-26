@@ -29,6 +29,7 @@ def create_driver():
     options = options_class()
     if HEADLESS:
         options.add_argument('--headless')
+        options.add_argument("window-size=1920x1080")
     driver = webdriver_class(options=options, service=service)
     driver.implicitly_wait(3)
     return driver
